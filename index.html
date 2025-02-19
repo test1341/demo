@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   
+
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>EATS-Speech: Emotion-Adaptive Transformation and Priority Synthesis for Zero-Shot Text-to-Speech</title>
+<meta name="generator" content="Jekyll v3.9.0">
+<meta property="og:title" content="EATS-Speech: Emotion-Adaptive Transformation and Priority Synthesis for Zero-Shot Text-to-Speech">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<!-- End Jekyll SEO tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body data-new-gr-c-s-check-loaded="14.1023.0" data-gr-ext-installed="">
+    <section class="page-header">
+    <!-- <h1 class="project-name"></h1>
+    <h2 class="project-tagline"></h2> -->
+      
+      
+    </section>
+
+    <section class="main-content">
+      <h1 id=""><center>EATS-Speech: Emotion-Adaptive Transformation and Priority Synthesis for Zero-Shot Text-to-Speech</center></h1>
+      <!-- <h1 id=""><center> Evaluation </center></h1> -->
+      
+
+<!-- <center> <b>| Anonymous | </b> </center> -->
+
+
+
+<h2 id="abstract">Abstract</h2>
+<p>
+  Zero-shot text-to-speech (TTS) supports diverse speech synthesis without speaker-specific data but struggles to accurately transfer emotions from reference to target text. Traditional approaches treat emotion as part of a global style, leading to inconsistent emotional expressiveness. To address this, we propose EATS-Speech, an Emotion-Adaptive Transformation Synthesis framework. EATS-Speech employs Emotion Priority Synthesis through a parallel pipeline that decomposes speech into non-emotion style, emotion, and content. It prioritizes emotion generation to enhance expressiveness. Furthermore, it introduces Emotion-Adaptive Transformation Synthesis, where an LLM-based converter learns text-emotion mapping patterns from the reference speech and transfers them to the target text. Experiments on the LibriTTS dataset demonstrate the improvements in emotional expressiveness and accurate emotion adaptation.
+</p>
+
+<h2><p class="toc_title">Contents</p></h2>
+<div id="toc_container">
+<ul>
+  <li><a href="#1">Model Architecture</a></li>
+  <li><a href="#2">Comparison Experiments</a></li>
+  <li><a href="#3">Ablation Study</a></li>
+</ul>
+</div>
+
+<a name="1"><h2>Model Architecture</h2></a>
+<div>
+    <br />
+  <p style="text-align: center">
+    <img src="EATS_1_00.jpg"/>
+  </p>
+  <p>
+  <figcaption style="text-align:center;">
+    </font>
+    <font size=3>
+      Figure 1: Comparison Between Previous and Proposed Zero-Shot TTS Frameworks.
+    </font>
+  </figcaption><br><br>
+  </p>
+
+  <br />
+  <p style="text-align: center">
+    <img src="EATS_2_00.jpg"/>
+  </p>
+  <p>
+  <figcaption style="text-align:center;">
+    </font>
+    <font size=3>
+      Figure 2: The overview of our proposed model. (A) Illustration of the EATS-Speech Architecture; (B) Illustration of Disentangled Speech Synthesis with Emotion Tokenizer.
+    </font>
+  </figcaption><br><br>
+  </p>
+
+  <br />
+  <p style="text-align: center">
+    <img src="EATS_3_00.jpg" />
+  </p>
+  <p>
+  <figcaption style="text-align:center;">
+    </font>
+    <font size=3>
+      Figure 3: The overview of the Emotion-Aware LLM.
+    </font>
+  </figcaption><br><br>
+  </p>
+</div>
+<a name="2"><h2>Comparison Experiments</h2></a>
+<p>
+  <li>The audio sample below is a sample synthesized using the model proposed in this paper.</li>
+  <li>The LibriTTS dataset is used, you can download it via https://www.openslr.org/60/.</li>
+  <li>LibriTTS is a multi-speaker English corpus. It amounts to 585 hours and over 2300 speakers. Train-clean-100, train-clean-360, and train-other-500 are merged as the training set. Dev-clean and dev-other are merged as a development set. Test-clean and test-other are merged as the test set. </li>
+            <li>Each comparison experiment model sources are listed below:</li>
+                <ul>
+                    <li>YourTTS: https://github.com/Edresson/YourTTS</li>
+                    <li>VALL-E: https://github.com/lifeiteng/VALL-E</li>
+                    <li>TransferTTS: https://github.com/hcy71o/TransferTTS</li>
+                    <li>E2-TTS: https://github.com/SWivid/F5-TTS</li>
+                    <li>CosyVoice: https://github.com/FunAudioLLM/CosyVoice</li>
+                </ul>
+        </ul>
+<h3>Sample for Seen Speaker - Development Set</h3>
+<h4>Sample 1</h4>
+<p>Text: The play and slight agitation of the water, in its upward gush, wrought magically with these variegated pebbles, and made a continually shifting apparition of quaint figures, vanishing too suddenly to be definable.,</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Groundtruth</strong></th>
+      <th style="text-align: center"><strong>YourTTS</strong></th>
+      <th style="text-align: center"><strong>TransferTTS</strong></th>
+      <th style="text-align: center"><strong>VALL-E</strong></th>
+      <th style="text-align: center"><strong>E2-TTS</strong></th>
+      <th style="text-align: center"><strong>CosyVoice</strong></th>
+      <th style="text-align: center"><strong>EATS-Speech</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/2086_149220_000006_000008/7.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/2086_149220_000006_000008/4.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/2086_149220_000006_000008/8.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/2086_149220_000006_000008/6.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/2086_149220_000006_000008/2.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/2086_149220_000006_000008/9.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/2086_149220_000006_000008/5.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br><h4>Sample 2</h4>
+<p>Text: "You'd better look in those big manufacturing houses along Franklin Street and just the other side of the river," he concluded. "Lots of girls work there.,</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Groundtruth</strong></th>
+      <th style="text-align: center"><strong>YourTTS</strong></th>
+      <th style="text-align: center"><strong>TransferTTS</strong></th>
+      <th style="text-align: center"><strong>VALL-E</strong></th>
+      <th style="text-align: center"><strong>E2-TTS</strong></th>
+      <th style="text-align: center"><strong>CosyVoice</strong></th>
+      <th style="text-align: center"><strong>EATS-Speech</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/2277_149874_000018_000002/7.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/2277_149874_000018_000002/4.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/2277_149874_000018_000002/8.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/2277_149874_000018_000002/6.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/2277_149874_000018_000002/2.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/2277_149874_000018_000002/9.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/2277_149874_000018_000002/5.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br><h4>Sample 3</h4>
+<p>Text: We followed an Alpine path for some four miles, now hundreds of feet above a brawling stream which descended from the glaciers, and now nearly alongside it.,</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Groundtruth</strong></th>
+      <th style="text-align: center"><strong>YourTTS</strong></th>
+      <th style="text-align: center"><strong>TransferTTS</strong></th>
+      <th style="text-align: center"><strong>VALL-E</strong></th>
+      <th style="text-align: center"><strong>E2-TTS</strong></th>
+      <th style="text-align: center"><strong>CosyVoice</strong></th>
+      <th style="text-align: center"><strong>EATS-Speech</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/2412_153954_000002_000000/7.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/2412_153954_000002_000000/4.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/2412_153954_000002_000000/8.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/2412_153954_000002_000000/6.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/2412_153954_000002_000000/2.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/2412_153954_000002_000000/9.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/2412_153954_000002_000000/5.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br><h4>Sample 4</h4>
+<p>Text: Tom Selwyn had been very sober during all this merry chatter; and now in his seat across the narrow aisle, he drummed his heels impatiently on the floor.,</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Groundtruth</strong></th>
+      <th style="text-align: center"><strong>YourTTS</strong></th>
+      <th style="text-align: center"><strong>TransferTTS</strong></th>
+      <th style="text-align: center"><strong>VALL-E</strong></th>
+      <th style="text-align: center"><strong>E2-TTS</strong></th>
+      <th style="text-align: center"><strong>CosyVoice</strong></th>
+      <th style="text-align: center"><strong>EATS-Speech</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/4831_18525_000014_000000/7.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/4831_18525_000014_000000/4.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/4831_18525_000014_000000/8.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/4831_18525_000014_000000/6.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/4831_18525_000014_000000/2.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/4831_18525_000014_000000/9.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-compare/4831_18525_000014_000000/5.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br>
+
+<br>
+      <h3>Sample for Unseen Speaker - Test Set</h3>
+
+<h4>Sample 1</h4>
+<p>Text: She never said much of herself in her letters, and Fanny's first exclamation when they met again, was an anxious "Why, Polly, dear! Have you been sick and never told me?",</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Groundtruth</strong></th>
+      <th style="text-align: center"><strong>YourTTS</strong></th>
+      <th style="text-align: center"><strong>TransferTTS</strong></th>
+      <th style="text-align: center"><strong>VALL-E</strong></th>
+      <th style="text-align: center"><strong>E2-TTS</strong></th>
+      <th style="text-align: center"><strong>CosyVoice</strong></th>
+      <th style="text-align: center"><strong>EATS-Speech</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/3331_159609_000002_000001/7.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/3331_159609_000002_000001/4.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/3331_159609_000002_000001/8.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/3331_159609_000002_000001/6.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/3331_159609_000002_000001/2.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/3331_159609_000002_000001/9.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/3331_159609_000002_000001/5.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br><h4>Sample 2</h4>
+<p>Text: "We must hasten." Seizing the scissors that lay on the ground where Ethelried had dropped them, she opened and shut them several times, exclaiming:,</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Groundtruth</strong></th>
+      <th style="text-align: center"><strong>YourTTS</strong></th>
+      <th style="text-align: center"><strong>TransferTTS</strong></th>
+      <th style="text-align: center"><strong>VALL-E</strong></th>
+      <th style="text-align: center"><strong>E2-TTS</strong></th>
+      <th style="text-align: center"><strong>CosyVoice</strong></th>
+      <th style="text-align: center"><strong>EATS-Speech</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/4294_35475_000015_000002/7.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/4294_35475_000015_000002/4.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/4294_35475_000015_000002/8.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/4294_35475_000015_000002/6.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/4294_35475_000015_000002/2.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/4294_35475_000015_000002/9.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/4294_35475_000015_000002/5.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br><h4>Sample 3</h4>
+<p>Text: She was sanguine, she was genial and companionable, and her spirits rose at the sight of a friendly face.,</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Groundtruth</strong></th>
+      <th style="text-align: center"><strong>YourTTS</strong></th>
+      <th style="text-align: center"><strong>TransferTTS</strong></th>
+      <th style="text-align: center"><strong>VALL-E</strong></th>
+      <th style="text-align: center"><strong>E2-TTS</strong></th>
+      <th style="text-align: center"><strong>CosyVoice</strong></th>
+      <th style="text-align: center"><strong>EATS-Speech</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/5683_32879_000013_000000/7.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/5683_32879_000013_000000/4.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/5683_32879_000013_000000/8.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/5683_32879_000013_000000/6.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/5683_32879_000013_000000/2.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/5683_32879_000013_000000/9.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/5683_32879_000013_000000/5.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br><h4>Sample 4</h4>
+<p>Text: Next day he rose and prayed the dawn prayer and repaired to his namesake's house where, after the company was all assembled, the host began to relate,</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Groundtruth</strong></th>
+      <th style="text-align: center"><strong>YourTTS</strong></th>
+      <th style="text-align: center"><strong>TransferTTS</strong></th>
+      <th style="text-align: center"><strong>VALL-E</strong></th>
+      <th style="text-align: center"><strong>E2-TTS</strong></th>
+      <th style="text-align: center"><strong>CosyVoice</strong></th>
+      <th style="text-align: center"><strong>EATS-Speech</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/7018_75789_000007_000001/7.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/7018_75789_000007_000001/4.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/7018_75789_000007_000001/8.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/7018_75789_000007_000001/6.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/7018_75789_000007_000001/2.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/7018_75789_000007_000001/9.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/7018_75789_000007_000001/5.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br><h4>Sample 5</h4>
+<p>Text: "Another case was that of a slave woman in a very delicate state, who was one day knocked down stairs by mrs Johnson herself, and in a few weeks after, the poor woman died from the effects of the injury thus received.,</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Groundtruth</strong></th>
+      <th style="text-align: center"><strong>YourTTS</strong></th>
+      <th style="text-align: center"><strong>TransferTTS</strong></th>
+      <th style="text-align: center"><strong>VALL-E</strong></th>
+      <th style="text-align: center"><strong>E2-TTS</strong></th>
+      <th style="text-align: center"><strong>CosyVoice</strong></th>
+      <th style="text-align: center"><strong>EATS-Speech</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/8463_287645_000013_000000/7.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/8463_287645_000013_000000/4.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/8463_287645_000013_000000/8.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/8463_287645_000013_000000/6.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/8463_287645_000013_000000/2.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/8463_287645_000013_000000/9.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/8463_287645_000013_000000/5.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br><h4>Sample 6</h4>
+<p>Text: He'll look after this end of the Island hereafter, an' unless I'm much mistaken he'll do it a heap better than you did.",</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Groundtruth</strong></th>
+      <th style="text-align: center"><strong>YourTTS</strong></th>
+      <th style="text-align: center"><strong>TransferTTS</strong></th>
+      <th style="text-align: center"><strong>VALL-E</strong></th>
+      <th style="text-align: center"><strong>E2-TTS</strong></th>
+      <th style="text-align: center"><strong>CosyVoice</strong></th>
+      <th style="text-align: center"><strong>EATS-Speech</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/8555_284449_000045_000003/7.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/8555_284449_000045_000003/4.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/8555_284449_000045_000003/8.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/8555_284449_000045_000003/6.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/8555_284449_000045_000003/2.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/8555_284449_000045_000003/9.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-compare/8555_284449_000045_000003/5.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br>
+
+<br>
+
+
+      <a name="3"><h2>Ablation Study</h2></a>
+<p>
+<li>Ablation studies are performed to evaluate the effectiveness of emotion decoupling and emotion conversion in the EATS-Speech framework. The experimental setup follows the same procedure as in the comparison experiments.
+</li>
+<li><b>-w/o Decoupling</b> refers to training EATS-Speech without emotion decoupling, where the emotion tokenizer is not used for gradient reversal of the emotion during the style conditioning process.
+</li>
+ <li><b>-w/o Conversion</b> refers to training EATS-Speech without the emotion-aware LLM, where only the emotion2vec model is used to assist in the zero-shot TTS synthesis, omitting the emotion conversion step.</p>
+</li>
+      <h3>Sample for Seen Speaker - Development Set</h3>
+<h4>Sample 1</h4>
+<p>Text: He was discharged, whereupon the union notified us that unless the boy was taken back the whole body would go out.,</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Groundtruth</strong></th>
+      <th style="text-align: center"><strong>Proposed</strong></th>
+      <th style="text-align: center"><strong>-w/o Decoupling</strong></th>
+      <th style="text-align: center"><strong>-w/o Conversion</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-ablation/1585_131718_000012_000003/7.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-ablation/1585_131718_000012_000003/5.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-ablation/1585_131718_000012_000003/1.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-ablation/1585_131718_000012_000003/3.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br>
+<h4>Sample 2</h4>
+<p>Text: "In the lonely barton by yonder coomb Our childhood used to know," I should go with him in the gloom, Hoping it might be so.,</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Groundtruth</strong></th>
+      <th style="text-align: center"><strong>Proposed</strong></th>
+      <th style="text-align: center"><strong>-w/o Decoupling</strong></th>
+      <th style="text-align: center"><strong>-w/o Conversion</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-ablation/6123_59186_000023_000000/7.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-ablation/6123_59186_000023_000000/5.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-ablation/6123_59186_000023_000000/1.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-ablation/6123_59186_000023_000000/3.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br>
+<h4>Sample 3</h4>
+<p>Text: If I make the marriage she chooses, she thinks mr Binnie will leave me his money. I am to run after a man who does not care for me, and make myself attractive, in the hope that he will condescend to marry me because mr Binnie may leave me his money.,</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Groundtruth</strong></th>
+      <th style="text-align: center"><strong>Proposed</strong></th>
+      <th style="text-align: center"><strong>-w/o Decoupling</strong></th>
+      <th style="text-align: center"><strong>-w/o Conversion</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-ablation/6455_67803_000006_000003/7.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-ablation/6455_67803_000006_000003/5.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-ablation/6455_67803_000006_000003/1.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-dev-ablation/6455_67803_000006_000003/3.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br>
+
+
+<br>
+      <h3>Sample for Unseen Speaker - Test Set</h3>
+
+<h4>Sample 1</h4>
+<p>Text: 'Yes, I will kiss you,' said the man's daughter, and she did it, but she thought it was the worst bit of work that she had ever had to do in her life.,</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Groundtruth</strong></th>
+      <th style="text-align: center"><strong>Proposed</strong></th>
+      <th style="text-align: center"><strong>-w/o Decoupling</strong></th>
+      <th style="text-align: center"><strong>-w/o Conversion</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="EATS/libritts-test-ablation/3538_163619_000011_000000/7.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-ablation/3538_163619_000011_000000/5.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-ablation/3538_163619_000011_000000/1.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-ablation/3538_163619_000011_000000/3.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br>
+<h4>Sample 2</h4>
+<p>Text: "Well!" he exclaimed; "and I felt sorry for her as one might for one's sister at home, and hung back from getting her people into trouble.,</b></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Groundtruth</strong></th>
+      <th style="text-align: center"><strong>Proposed</strong></th>
+      <th style="text-align: center"><strong>-w/o Decoupling</strong></th>
+      <th style="text-align: center"><strong>-w/o Conversion</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><audio src="EATS/libritts-test-ablation/7902_96591_000040_000000/7.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-ablation/7902_96591_000040_000000/5.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-ablation/7902_96591_000040_000000/1.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="EATS/libritts-test-ablation/7902_96591_000040_000000/3.wav" controls="" preload=""></audio></td>
+  </tbody>
+</table>
+<br>
+
+
+<br>
+<br>
+
+    </section>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
